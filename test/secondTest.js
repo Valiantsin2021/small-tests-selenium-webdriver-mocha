@@ -4,7 +4,7 @@ let should = require("chai").should();
 let assert = require("assert");
 const {urlAmazon, titleAmazon, searchAmazon, searchTitle, price} = require('../utils/constants.js')
 
-describe("Should succesfully search Amazon.es with specified keywords tekts", async function(){
+describe("Should succesfully search Amazon.es with specified keywords", async function(){
     
     after(async function(){
         await driver.quit();
