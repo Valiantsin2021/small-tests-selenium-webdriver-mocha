@@ -1,22 +1,22 @@
 const {Builder, By, Key, WebDriver} = require("selenium-webdriver");
 require("chromedriver");
 let assert = require("assert");
-var expect = require('expect')
+let expect = require('expect')
 const { user, pass } = require('../utils/credentials.js')
-const { url, emaillName, pageTitle, headers} = require('../utils/constants.js')
+const { urlMail, emaillName, pageTitle, headers} = require('../utils/constants.js')
 
-describe("smoke test for mail.ru", async function(){
+describe("Smoke test for mail.ru", async function(){
     
     after(async function(){
         await driver.quit();
     });
 
-    it("should login email account succesfully", async function(){
+    it("Should login email account succesfully", async function(){
         driver = await new Builder().forBrowser("chrome").build();
 
         await driver.manage().setTimeouts( { implicit: 10000 } );
 
-        await driver.get(url);
+        await driver.get(urlMail);
         await driver.manage().window().maximize();
         await driver.findElement(By.xpath("//button[@data-testid='enter-mail-primary']")).click();
 
@@ -35,7 +35,7 @@ describe("smoke test for mail.ru", async function(){
     
     });
 
-    it("should check name of email account is correct", async function(){
+    it("Should check name of email account is correct", async function(){
 
         const accountHeader = await driver.findElement(By.css("span.ph-project__user-name.svelte-1hiqrvn"))
         .getText()
@@ -47,7 +47,7 @@ describe("smoke test for mail.ru", async function(){
         
     });
 
-    it("check unread messages", async function(){
+    it("Should check unread messages", async function(){
 
         await driver.findElement(By.css("a[href='/inbox/']")).click()
         const incomming = await driver.findElements(By.css(".llc.llc_normal.llc_new.llc_new-selection.js-letter-list-item.js-tooltip-direction_letter-bottom"))

@@ -1,35 +1,44 @@
-const {Builder, By, Key, WebDriver} = require("selenium-webdriver");
+const {Builder, By, Key, until} = require("selenium-webdriver");
 require("chromedriver");
-// let assert = require("assert");
 let should = require("chai").should();
+let assert = require("assert");
+const {urlAmazon, titleAmazon, searchAmazon, searchTitle, price} = require('../utils/constants.js')
 
-describe("search Google with specified keywords tests", async function(){
+describe("Should succesfully search Amazon.es with specified keywords tekts", async function(){
     
-    beforeEach(async function(){
-        driver = await new Builder().forBrowser("chrome").build();
-        await driver.get("https://google.com");
-        await driver.findElement(By.xpath("//button[@id='L2AGLb']")).click();
-    });
-    
-    afterEach(async function(){
+    after(async function(){
         await driver.quit();
     });
 
-    it("successfully searches Google 'Hello js Selenium'", async function(){
-    
-        await driver.findElement(By.name("q")).sendKeys("Hello js Selenium", Key.ENTER);
-        let title = await driver.getTitle().then(function(value){return value});
-        console.log(title);
-        // await assert.strictEqual(title, "Hello js Selenium - Поиск в Google");
-        await title.should.equal("Hello js Selenium - Поиск в Google");    
+    it("Should successfully open Amazon.es page", async function(){
+
+        driver = await new Builder().forBrowser("chrome").build();
+        await driver.manage().setTimeouts( { implicit: 10000 } );
+        await driver.manage().window().maximize();
+        await driver.get(urlAmazon);
+        await assert.equal(await driver.getTitle(), titleAmazon)
     });
 
-    it("successfully searches Google 'Hello'", async function(){
+    it("Should successfully search Amazon.es page 'Roomba'", async function(){
+        let cookies = await driver.wait(until.elementLocated(By.css('#sp-cc-accept')), 2000)
+        await cookies.click();
+        let search = await driver.wait(until.elementLocated(By.css('#twotabsearchtextbox')), 2000)
+        await search.sendKeys(searchAmazon, Key.ENTER)
+        const results = await driver.wait(until.elementLocated(By.xpath("//span[text()='RESULTADOS']")), 2000)
+        await assert.equal(await results.getText(), searchTitle)
+
+    });
+
+    it("Should check price of Roomba i7556", async function(){
             
-        await driver.findElement(By.name("q")).sendKeys("Hello", Key.ENTER);
-        let title = await driver.getTitle().then(function(value){return value});
-        console.log(title);
-        // await assert.strictEqual(title, "Hello - Поиск в Google");
-        await title.should.equal("Hello - Поиск в Google");
+        let roomba = await driver.wait(until.elementLocated(By.xpath('//span[text()="Robot Aspirador iRobot Roomba i3+ - Autovaciado de Suciedad - Ideal para Mascotas - Sugerencias Personalizadas - Compatible con tu Asistente de Voz - Color Gris Azulado"]')), 2000)
+        await roomba.click()
+        let priceReceived = await driver.wait(until.elementLocated(By.css('#corePriceDisplay_desktop_feature_div  span.a-price-whole')), 2000)
+        await assert.strictEqual(await priceReceived.getText(), price)
+    });
+
+    it("Should check image of Roomba i7556 is present", async function(){
+        let image = await driver.wait(until.elementLocated(By.css('#imgTagWrapperId')), 2000)
+        await assert.ok(true, image)
     });
 });
