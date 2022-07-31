@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --no-timeouts --parallel --reporter mochawesome --require mochawesome/register"
+    "test": "mocha --no-timeouts --parallel --reporter mochawesome --require mochawesome/register",
+    "build": "mocha --no-timeouts --parallel --reporter mochawesome --require mochawesome/register ./test/*.js"
   },
   "keywords": [],
   "author": "",
