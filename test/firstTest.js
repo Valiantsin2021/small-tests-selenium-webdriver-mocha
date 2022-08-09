@@ -1,4 +1,4 @@
-const {Builder, By, Key, WebDriver, until} = require("selenium-webdriver");
+const {Builder, By, Key, webdriver, until} = require("selenium-webdriver");
 require("chromedriver");
 let assert = require("assert");
 let expect = require('expect')
