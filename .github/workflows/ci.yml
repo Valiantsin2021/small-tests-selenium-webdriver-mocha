@@ -1,0 +1,19 @@
+name: Selenium mocha smoke tests
+
+on: [push]
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Chromium
+        run: sudo apt-get install chromium-browser firefox
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install
+        run: npm install
+      - name: test run
+        run: npm run test
