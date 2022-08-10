@@ -1,5 +1,4 @@
 const {Builder, By, Key, until} = require("selenium-webdriver");
-require("chromedriver");
 let should = require("chai").should();
 let assert = require("assert");
 const {urlAmazon, titleAmazon, searchAmazon, searchTitle, price} = require('../utils/constants.js')
