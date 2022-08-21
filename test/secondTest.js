@@ -7,7 +7,8 @@ describe("Should succesfully search Amazon.es with specified keywords", async fu
         await driver.quit();
     });
     it("Should successfully open Amazon.es page", async function(){
-        driver = await new Builder().forBrowser("chrome").build();
+        const capabilities = {"goog:chromeOptions": {"args": ["--headless", "--no-sandbox", "--disable-dev-shm-usage"]}}
+        driver = await new Builder().withCapabilities(capabilities).forBrowser("chrome").build();
         await driver.manage().setTimeouts( { implicit: 10000 } );
         await driver.manage().window().maximize();
         await driver.get(urlAmazon);

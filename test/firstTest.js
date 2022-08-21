@@ -8,7 +8,8 @@ describe("Smoke test for mail.ru", async function(){
         await driver.quit();
     });
     it("Should login email account succesfully", async function(){
-        driver = await new Builder().forBrowser("chrome").build();
+        const capabilities = {"goog:chromeOptions": {"args": ["--headless", "--no-sandbox", "--disable-dev-shm-usage"]}}
+        driver = await new Builder().withCapabilities(capabilities).forBrowser("chrome").build();
         await driver.manage().setTimeouts( { implicit: 10000 } );
         await driver.get(urlMail);
         await driver.manage().window().maximize();
